@@ -1,0 +1,60 @@
+identify_task:
+  description: >
+    Identify the anime figure in the image and return the result in this exact format:
+    Characters; Figure Name; Manufacturer
+
+    Output only a single line, no extra words or explanation.
+
+  expected_output: >
+    A single line in the format: Characters; Figure Name; Manufacturer
+
+  input_keys: ["image_b64"]
+
+research_task:
+  description: >
+    You are given basic figure metadata in the following format:
+
+    <metadata>{figure_metadata}</metadata>
+
+    Your job is to enrich the metadata by identifying or guessing:
+    - The anime name
+    - The full figure name or type
+    - Manufacturer (if ambiguous, confirm)
+    - Release date in MM/YYYY format (if you do not know this, specify you do not know)
+    - Size in centimeters (if you do not know this, specify you do not know)
+
+    Output your result using exactly the following structure:
+
+    Manufacturer: Banpresto  
+    Figure Name: Master Stars Piece Levi  
+    Anime: Attack on Titan  
+    Release: 03/2024
+    13 cm
+
+    Do not include any prose or extra text — just these four labeled fields.
+
+  expected_output: >
+    A 4-line block of structured metadata. No explanation or prose.
+
+  input_keys: ["figure_metadata"]
+
+
+caption_task:
+  description: |
+    Your job is to extract values from the following metadata and return a clean Instagram caption — one useful value per line, in this exact order:
+
+    1. Manufacturer  
+    2. Figure Name  
+    3. Anime Name  
+    4. Size (e.g. 18cm) — OPTIONAL  
+    5. Release Date (MM/YYYY) — OPTIONAL
+
+    ❌ Do NOT include any placeholder like "Not specified", "Unknown", "None", etc.  
+    ❌ Do NOT include labels like "Manufacturer:"  
+    ❌ Do NOT use words like "Answer", "Final", "Thought", etc.  
+    ✅ Only output the actual known values. If any are missing, skip that line entirely.
+
+    Metadata input: {{ result }}
+
+  expected_output: |
+    A caption with 3-5 lines of clean values, no labels or filler. Start output directly with the values.
